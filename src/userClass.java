@@ -6,17 +6,30 @@ public class USER {
     private String lastName;
     private String password;
     private String phoneNumber;
+    public enum State{
+        online,
+        offline,
+        away
+    }
+
+    State state=State.online;
+
+
+
+    //constructors :
     public USER(String name,String lastName,String password,String phoneNumber){
         this.name=name;
         this.lastName=lastName;
         this.password=password;
         this.phoneNumber=phoneNumber;
+        this.state=State.online
     }
     public USER(USER user){
-        name=getName();
-        lastName=getLastName();
-        password=getPassword();
-        phoneNumber=getPhoneNumber();
+        name=user.getName();
+        lastName=user.getLastName();
+        password=user.getPassword();
+        phoneNumber=user.getPhoneNumber();
+        state=user.getState();
     }
     // getters and setters :
     public String getName() {
@@ -50,4 +63,8 @@ public class USER {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public State getState() { return state; }
+
+    public void setState(State state) {this.state = state;}
 }
