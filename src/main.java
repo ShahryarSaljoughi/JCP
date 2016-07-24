@@ -23,6 +23,13 @@ public class main {
             System.out.println("we are having trouble adding user");
         }
 
+        USER user2 = new USER("pegah","fateh","1995","09152850025");
+        try {
+            myDB.addFriendship(user, user2);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
 
     }
 }

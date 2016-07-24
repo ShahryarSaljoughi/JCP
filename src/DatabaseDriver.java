@@ -5,8 +5,9 @@ import java.sql.*;
 
 public class DatabaseDriver {
     private Statement stat;
+    private PreparedStatement pstate;
     private Connection conn;
-
+    //constructor :
     public DatabaseDriver() throws SQLException{
         conn = connect();
         stat=conn.createStatement();
@@ -14,7 +15,7 @@ public class DatabaseDriver {
 
     public void addUser(USER user) throws SQLException{
         String SqlCommand;
-        SqlCommand = "insert into users (name ,lastname ,password ,phonenumber) values "+
+        SqlCommand = "insert or  ignore into users (name ,lastname ,password ,phonenumber) values "+
                 "("+
                 "\'" + user.getName()+"\'" +","+
                 "\'" +user.getLastName() +"\'"  +","+
@@ -23,7 +24,17 @@ public class DatabaseDriver {
                 +")";
         System.out.println(SqlCommand); //this will be erased
         stat.execute(SqlCommand);
-
+    //    stat.close();
+    }
+    public void addFriendship(USER user1,USER user2)
+            throws SQLException{
+        String SqlCommand;
+        SqlCommand = "INSERT OR IGNORE INTO friends VALUES (?,?)";
+        pstate = conn.prepareStatement(SqlCommand);
+        pstate.setString(1,user1.getPhoneNumber());
+        pstate.setString(2,user2.getPhoneNumber());
+        pstate.execute();
+    //    pstate.close();
     }
 
     private Connection connect() throws SQLException {

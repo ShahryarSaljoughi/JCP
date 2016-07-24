@@ -6,11 +6,12 @@ import java.sql.SQLException;
 public class signUp {
     //USER User ;
     DatabaseDriver DB = new DatabaseDriver();
-    public static signUp(USER user) throws SQLException {
-        DatabaseDriver LocalDB = new DatabaseDriver();
-        LocalDB.addUser(user);
+    public signUp(USER user) throws SQLException {
+        DB.addUser(user);
     }
-    public static Validate(USER user){
+    public static boolean isValid(USER user){
+        boolean valid = true;
 
+        return valid;
     }
 }
