@@ -3,7 +3,7 @@ import java.sql.SQLException;
 /**
  * Created by panizava on 19/07/2016.
  */
-public class signUp {
+public class signUp  {
     //USER User ;
     DatabaseDriver DB = new DatabaseDriver();
     public signUp(USER user) throws SQLException {
