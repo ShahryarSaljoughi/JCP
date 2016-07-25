@@ -4,17 +4,18 @@
 import java.sql.*;
 
 public class DatabaseDriver {
-//    private Statement stat;
-  //  private PreparedStatement pstate;
-//    private Connection conn;
-    //constructor :
-//    public DatabaseDriver() throws SQLException{
-//        conn = connect();
-//        stat=conn.createStatement();
-//    }
-
+    private static final Connection conn;
+    static{
+        try {
+            conn = connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ExceptionInInitializerError("could not make connectivity . sorry  for taht");
+        }
+    }
+    public DatabaseDriver(){}
     public void addUser(USER user) throws SQLException{
-        Connection conn = connect();
+        //Connection conn = connect();
         Statement stat = conn.createStatement();
         String SqlCommand;
         SqlCommand = "insert or  ignore into users (name ,lastname ,password ,phonenumber) values "+
@@ -27,11 +28,11 @@ public class DatabaseDriver {
         System.out.println(SqlCommand); //this will be erased
         stat.execute(SqlCommand);
         stat.close();
-        conn.close();
+       // conn.close();
     }
     public void addFriendship(USER user1,USER user2)
             throws SQLException{
-        Connection conn = connect();
+        //Connection conn = connect();
         PreparedStatement pstate;
         String SqlCommand;
         SqlCommand = "INSERT OR IGNORE INTO friends VALUES (?,?)";
@@ -40,10 +41,10 @@ public class DatabaseDriver {
         pstate.setString(2,user2.getPhoneNumber());
         pstate.execute();
         pstate.close();
-        conn.close();
+        //conn.close();
     }
 
-    private Connection connect() throws SQLException {
+    private static Connection connect() throws SQLException {
         // db parameters
         String url;
         url = "jdbc:sqlite:E:/javaChatProject/database/DB";
@@ -53,5 +54,3 @@ public class DatabaseDriver {
         return conn;
     }
 }
-
-
