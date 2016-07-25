@@ -14,6 +14,22 @@ public class DatabaseDriver {
         }
     }
     public DatabaseDriver(){}
+
+    public static boolean userExists(USER user) throws SQLException {
+        String SqlCommand;
+        SqlCommand = "SELECT phonenumber FROM users WHERE phonenumber = ?";
+        PreparedStatement stat;
+        stat = conn.prepareStatement(SqlCommand);
+        stat.setString(1, user.getPhoneNumber());
+        stat.execute();
+        ResultSet result = stat.getResultSet();
+        if result.next() {
+            return true;
+        }
+        return false;
+
+    }
+
     public void addUser(USER user) throws SQLException{
         //Connection conn = connect();
         Statement stat = conn.createStatement();
