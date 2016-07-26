@@ -2,15 +2,13 @@ import java.sql.SQLException;
 
 public class signUp  {
     //USER User ;
-    DatabaseDriver DB = new DatabaseDriver();
-    public signUp(USER user) throws SQLException {
-        if isValid(user){ DB.addUser(user); }
-        else {
-            throw new SignUpException("the user already exists!")
-        }
-    }
-    public static boolean isValid(USER user){
-        boolean valid = !DatabaseDriver.userExists(user);
-        return valid;
+    public static void signup(USER user) throws SQLException,SignUpException {
+       if (DatabaseDriver.userExists(user)){
+           System.out.println("the user already exists . just sign in");
+           throw new SignUpException("the user already is in database - error in signup");
+       }else{
+           System.out.println("singup is going to add user to DB");
+           DatabaseDriver.addUser(user);
+       }
     }
 }
