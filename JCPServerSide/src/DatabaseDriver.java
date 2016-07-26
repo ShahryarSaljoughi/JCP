@@ -8,29 +8,42 @@ public class DatabaseDriver {
     static{
         try {
             conn = connect();
+            System.out.println("connection is made");
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ExceptionInInitializerError("could not make connectivity . sorry  for taht");
+            throw new ExceptionInInitializerError("could not make connectivity . sorry  for that");
         }
     }
     public DatabaseDriver(){}
 
     public static boolean userExists(USER user) throws SQLException {
+        System.out.println("userExists is running");
+
         String SqlCommand;
         SqlCommand = "SELECT phonenumber FROM users WHERE phonenumber = ?";
         PreparedStatement stat;
         stat = conn.prepareStatement(SqlCommand);
         stat.setString(1, user.getPhoneNumber());
-        stat.execute();
-        ResultSet result = stat.getResultSet();
-        if result.next() {
-            return true;
-        }
-        return false;
+        boolean hasResult =stat.execute();
+        ResultSet result;
+        result = stat.getResultSet();
+        boolean a = result.next();
+        result.close();
+        return a;
 
+        /*if (hasResult){
+            result = stat.getResultSet();
+            boolean a = result.next();
+            result.close();
+            System.out.println(a);
+            return a;
+        }
+        else{
+            System.out.println("there is no result - text just for test");
+        }*/
     }
 
-    public void addUser(USER user) throws SQLException{
+    public static void addUser(USER user) throws SQLException{
         //Connection conn = connect();
         Statement stat = conn.createStatement();
         String SqlCommand;
@@ -46,7 +59,7 @@ public class DatabaseDriver {
         stat.close();
        // conn.close();
     }
-    public void addFriendship(USER user1,USER user2)
+    public static void addFriendship(USER user1,USER user2)
             throws SQLException{
         //Connection conn = connect();
         PreparedStatement pstate;
