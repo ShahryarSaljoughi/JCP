@@ -16,6 +16,19 @@ public class DatabaseDriver {
     }
     public DatabaseDriver(){}
 
+    public static void addMessage(Message message) throws SQLException {
+        String sqlCommand;
+        sqlCommand="insert into TextMessages VALUES (?,?,?)";
+        PreparedStatement pstat ;
+        pstat = conn.prepareStatement(sqlCommand);
+        pstat.setString(1,message.getSender());
+        pstat.setString(2,message.getReceiver());
+        pstat.setString(3,message.getContent());
+        pstat.execute();
+        pstat.close();
+    }
+
+
     public static boolean userExists(USER user) throws SQLException {
         System.out.println("userExists is running");
 
