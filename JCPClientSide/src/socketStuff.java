@@ -12,16 +12,18 @@ import java.util.Scanner;
 public class socketStuff {
     public static void main(String args[]) throws IOException {
 
-        Socket cliSocket = new Socket("localhost",3573);
-        InputStream inStrm = cliSocket.getInputStream();
-        OutputStream outStrm = cliSocket.getOutputStream();
+        Socket clientSendSocket = new Socket("localhost",5001);
+        Socket clientRecvSocket = new Socket ("localhost",5000);
+        InputStream inStrm = clientRecvSocket.getInputStream();
+        OutputStream outStrm = clientSendSocket.getOutputStream();
         PrintWriter printWriterStrm = new PrintWriter(outStrm);
         Scanner inScanner = new Scanner(inStrm);
 
         printWriterStrm.print(profile.me.getPhoneNumber());       //I want to send the phonenumber , just after each connection !
         printWriterStrm.flush();                                  // So that an onlineClient could be formed on the server side .
+
         while(true){
-            System.out.print(".");
+            
         }
     }
 
