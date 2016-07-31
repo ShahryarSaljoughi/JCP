@@ -56,7 +56,7 @@ public class JCPServer {
         int LocalPort_RecvSocket;
         ServerSocket ServerSendSocket = null;
         ServerSocket ServerRecvSocket = null;
-
+        //send socket is listennig on port 5000
         try {
             ServerSendSocket = new ServerSocket(5000);
         }
@@ -70,6 +70,7 @@ public class JCPServer {
             }
         }
 
+        // the socket for receiving data is listaning on port 5001
         try {
             ServerRecvSocket = new ServerSocket(5001);
         }
@@ -109,27 +110,34 @@ public class JCPServer {
 
             Scanner in = new Scanner(acceptRecvSocket.getInputStream());
 
+            ClientAccessor clientAccessor = null;
             if (in.hasNext()){
+                 clientAccessor = new ClientAccessor(
+                        acceptSendSocket,acceptRecvSocket,in.next());
+                onlineClients.add(clientAccessor);
+
+            }
+            /*if (in.hasNext()){
                 onlineClients.add(
                         new ClientAccessor(
                                 acceptSendSocket,acceptRecvSocket,in.next()));
+            */
 
-            }else{
+            else{
                 System.out.println("client has not send any phonenumber!");
                 System.exit(1);
             }
 
-            System.out.println(onlineClients.size());
-
             System.out.println("connection was made ... ");
+            assert acceptSendSocket != null ;
             System.out.println(
                     "connected from this inetAddress : "+acceptSendSocket.getInetAddress()
                             +" ,"+acceptSendSocket.getPort());
 
 
-            /*ClientHandler CH = new ClientHandler(acceptSocket);
+            ClientHandler CH = new ClientHandler(clientAccessor);
             Thread t = new Thread(CH);
-            t.start();*/
+            t.start();
         }
 
 
