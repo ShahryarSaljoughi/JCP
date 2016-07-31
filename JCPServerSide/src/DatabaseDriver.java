@@ -18,12 +18,14 @@ public class DatabaseDriver {
 
     public static void addMessage(Message message) throws SQLException {
         String sqlCommand;
-        sqlCommand="insert into TextMessages VALUES (?,?,?)";
+        sqlCommand="insert into TextMessages VALUES (?,?,?,?,?)";
         PreparedStatement pstat ;
         pstat = conn.prepareStatement(sqlCommand);
         pstat.setString(1,message.getSender());
         pstat.setString(2,message.getReceiver());
         pstat.setString(3,message.getContent());
+        if (message.isSeen()){pstat.setInt(4,1);}else{pstat.setInt(4,0);}
+        if (message.isSent()){pstat.setInt(5,1);}else{pstat.setInt(5,0);}
         pstat.execute();
         pstat.close();
     }
