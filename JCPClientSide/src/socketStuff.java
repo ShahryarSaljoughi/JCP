@@ -17,9 +17,12 @@ public class socketStuff {
         OutputStream outStrm = cliSocket.getOutputStream();
         PrintWriter printWriterStrm = new PrintWriter(outStrm);
         Scanner inScanner = new Scanner(inStrm);
+
         printWriterStrm.print(profile.me.getPhoneNumber());       //I want to send the phonenumber , just after each connection !
         printWriterStrm.flush();                                  // So that an onlineClient could be formed on the server side .
-                                                                  //todo : Let's create a profile class .
+        while(true){
+            System.out.print(".");
+        }
     }
 
 }

@@ -51,9 +51,10 @@ public class JCPServer {
                 System.out.println("sorry i can't set up the network");
                 System.exit(0);
             }
-            LocalPort = ss.getLocalPort();
-            System.out.println("the server is waiting on port "+LocalPort);
+
         }
+        LocalPort = ss.getLocalPort();
+        System.out.println("the server is waiting on port "+LocalPort);
 
         while (true){
 
@@ -78,6 +79,7 @@ public class JCPServer {
             }
 
             System.out.println(onlineClients.size());
+
             System.out.println("connection was made ... ");
             System.out.println(
                     "connected from this inetAddress : "+acceptSocket.getInetAddress()
