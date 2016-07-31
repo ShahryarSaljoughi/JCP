@@ -1,3 +1,7 @@
+/**
+ * Created by shahryar_slg on 28/07/2016.
+ */
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -5,28 +9,38 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Created by panizava on 28/07/2016.
- */
-
 
 class ClientAccessor{
-    private Socket ClientSocket;
+    private Socket ClientSendSocket;
+    private Socket ClientRecvSocket;
     private String phonenumber;
 
-    public ClientAccessor(Socket clientSocket, String phonenumber) {
-        ClientSocket = clientSocket;
+    public ClientAccessor(Socket clientSendSocket,Socket clientRecvSocket, String phonenumber) {
+        this.ClientRecvSocket = clientRecvSocket;
+        this.ClientSendSocket = clientSendSocket;
         this.phonenumber = phonenumber;
     }
-    public Socket getClientSocket() {
-        return ClientSocket;
+
+    public Socket getClientSendSocket() {
+        return ClientSendSocket;
     }
+
+    public void setClientSendSocket(Socket clientSendSocket) {
+        ClientSendSocket = clientSendSocket;
+    }
+
+    public Socket getClientRecvSocket() {
+        return ClientRecvSocket;
+    }
+
+    public void setClientRecvSocket(Socket clientRecvSocket) {
+        ClientRecvSocket = clientRecvSocket;
+    }
+
     public String getPhonenumber() {
         return phonenumber;
     }
-    public void setClientSocket(Socket clientSocket) {
-        ClientSocket = clientSocket;
-    }
+
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
@@ -38,40 +52,67 @@ public class JCPServer {
 
     public static void main (String args[]) throws IOException {
         System.out.println(onlineClients.size());
-        int LocalPort;
-        ServerSocket ss = null;
+        int LocalPort_SendSocket;
+        int LocalPort_RecvSocket;
+        ServerSocket ServerSendSocket = null;
+        ServerSocket ServerRecvSocket = null;
 
         try {
-            ss = new ServerSocket(3573);
-        } catch (IOException e) {
-            System.out.println("impossible to listen on port 3571");
+            ServerSendSocket = new ServerSocket(5000);
+        }
+        catch (IOException e) {
+            System.out.println("impossible to listen on ports 5000 ");
             try {
-                ss = new ServerSocket(0);
+                ServerSendSocket = new ServerSocket(0);
             } catch (IOException e1) {
                 System.out.println("sorry i can't set up the network");
                 System.exit(0);
             }
-
         }
-        LocalPort = ss.getLocalPort();
-        System.out.println("the server is waiting on port "+LocalPort);
+
+        try {
+            ServerRecvSocket = new ServerSocket(5001);
+        }
+        catch (IOException e) {
+            System.out.println("impossible to listen on ports  5001");
+            try {
+                ServerRecvSocket = new ServerSocket(0);
+            }
+            catch (IOException e1) {
+                System.out.println("sorry i can't set up the network");
+                System.exit(0);
+            }
+        }
+
+        LocalPort_RecvSocket = ServerRecvSocket.getLocalPort();
+        LocalPort_SendSocket = ServerSendSocket.getLocalPort();
+        System.out.println("the server's send socket is waiting on port "+
+                                                LocalPort_SendSocket);
+        System.out.println("the server's send socket is waiting on port "+
+                LocalPort_RecvSocket);
 
         while (true){
 
-            Socket acceptSocket= null;// this will be used to communicate with the client
+            Socket acceptSendSocket= null;
+            Socket acceptRecvSocket = null;
             try {
-                acceptSocket = ss.accept();
+                acceptSendSocket = ServerSendSocket.accept();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            Scanner in = new Scanner(acceptSocket.getInputStream());
+            try{
+                acceptRecvSocket = ServerRecvSocket.accept();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
 
+            Scanner in = new Scanner(acceptRecvSocket.getInputStream());
 
             if (in.hasNext()){
                 onlineClients.add(
                         new ClientAccessor(
-                                acceptSocket,in.next()));
+                                acceptSendSocket,acceptRecvSocket,in.next()));
 
             }else{
                 System.out.println("client has not send any phonenumber!");
@@ -82,8 +123,8 @@ public class JCPServer {
 
             System.out.println("connection was made ... ");
             System.out.println(
-                    "connected from this inetAddress : "+acceptSocket.getInetAddress()
-                            +" ,"+acceptSocket.getPort());
+                    "connected from this inetAddress : "+acceptSendSocket.getInetAddress()
+                            +" ,"+acceptSendSocket.getPort());
 
 
             /*ClientHandler CH = new ClientHandler(acceptSocket);
