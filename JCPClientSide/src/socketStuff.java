@@ -23,7 +23,7 @@ public class socketStuff {
         printWriterStrm.flush();                                  // So that an onlineClient could be formed on the server side .
 
         while(true){
-            
+
         }
     }
 
