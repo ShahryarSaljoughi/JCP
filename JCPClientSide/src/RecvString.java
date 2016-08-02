@@ -3,11 +3,15 @@ import java.util.Scanner;
 /**
  * Created by shahryar_slg on 01/08/2016.
  */
-public class RecvString implements Runnable {
+public class RecvString extends Thread {
     private Scanner input;
     private String data = null ;
+    private Thread t;
     private boolean isDataReceived = false;
+
+    //constructor :
     public RecvString(Scanner input) {
+
         this.input = input;
     }
 
@@ -33,5 +37,9 @@ public class RecvString implements Runnable {
         isDataReceived = true;
     }
 
-
+    @Override
+    public synchronized void start() {
+        Thread t= new Thread(this);
+        t.start();
+    }
 }
