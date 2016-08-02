@@ -5,14 +5,14 @@ import java.util.Scanner;
  */
 public class RecvString extends Thread {
     private Scanner input;
-    private String data = null ;
+    private String data = "" ;
     private Thread t;
     private boolean isDataReceived = false;
 
     //constructor :
     public RecvString(Scanner input) {
 
-        this.input = input;
+        this.input = socketStuff.inScanner;
     }
 
     public String getData() {
@@ -28,7 +28,8 @@ public class RecvString extends Thread {
         while (input.hasNext()){
             String nextToken = input.next().toLowerCase();
             if (nextToken!= "endofdata") { // i want to hava the whole string together ! not splited !! so ...
-                data =  data.concat(input.next().toLowerCase());
+                data =  data.concat(nextToken);
+                data = data.concat(" ");
             }
             else{
                 break;

@@ -116,14 +116,7 @@ public class JCPServer {
                         acceptSendSocket,acceptRecvSocket,in.next());
                 onlineClients.add(clientAccessor);
 
-            }
-            /*if (in.hasNext()){
-                onlineClients.add(
-                        new ClientAccessor(
-                                acceptSendSocket,acceptRecvSocket,in.next()));
-            */
-
-            else{
+            } else{
                 System.out.println("client has not send any phonenumber!");
                 System.exit(1);
             }

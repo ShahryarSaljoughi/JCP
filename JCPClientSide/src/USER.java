@@ -1,5 +1,5 @@
 /**
- * Created by panizava on 27/07/2016.
+ * Created by shahryar_slg on 27/07/2016.
  */
 public class USER {
     private String name;
