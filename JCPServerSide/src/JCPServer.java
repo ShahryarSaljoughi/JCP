@@ -89,7 +89,7 @@ public class JCPServer {
         LocalPort_SendSocket = ServerSendSocket.getLocalPort();
         System.out.println("the server's send socket is waiting on port "+
                                                 LocalPort_SendSocket);
-        System.out.println("the server's send socket is waiting on port "+
+        System.out.println("the server's receive socket is waiting on port "+
                 LocalPort_RecvSocket);
 
         while (true){
@@ -121,13 +121,15 @@ public class JCPServer {
                 System.exit(1);
             }
 
+
             System.out.println("connection was made ... ");
             assert acceptSendSocket != null ;
             System.out.println(
                     "connected from this inetAddress : "+acceptSendSocket.getInetAddress()
                             +" ,"+acceptSendSocket.getPort());
 
-
+            System.out.print("there are online clients :");
+            System.out.println(onlineClients.size());
             ClientHandler CH = new ClientHandler(clientAccessor);
             Thread t = new Thread(CH);
             t.start();

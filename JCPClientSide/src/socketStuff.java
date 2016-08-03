@@ -33,16 +33,21 @@ public class socketStuff {
         inScanner = new Scanner(inStrm);
         setStaticsInitialized(true);
 
+        /*
         printWriterStrm.print(profile.me.getPhoneNumber());       //I want to send the phonenumber , just after each connection !
         printWriterStrm.flush();                                  // So that an onlineClient could be formed on the server side .
+        */
+        SendString ssOut = new SendString(profile.me.getPhoneNumber());
+        ssOut.start();
 
 
+        /*
         Message message = new Message("09127401672","09142850025","salam . merC babate lotfi ke kardi :) ");
         RequestSender.sendTextMessage(message);
+        */
+        RequestSender.sendText("sigar , gahve , hooman , darya!!");
 
-
-
-        while(true){
+       while(true){
 
         }
     }

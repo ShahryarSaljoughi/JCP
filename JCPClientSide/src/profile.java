@@ -11,7 +11,7 @@ later I will add more methods and variables to this class , in order let the use
 public class profile extends USER {
     public static profile me = null;
     static{
-        me = new profile("unknown","unknown","unknown","unknown");
+        me = new profile("shahryar","saljougi","123465789","09127401672");
     }
     public profile(String name, String lastName, String password, String phoneNumber) {
         super(name, lastName, password, phoneNumber);

@@ -23,8 +23,11 @@ public class RecvString extends Thread {
         return isDataReceived;
     }
 
+
+
     @Override
-    public void run() {
+    public synchronized void run() {
+
         while (input.hasNext()){
             String nextToken = input.next().toLowerCase();
             if (nextToken!= "endofdata") { // i want to hava the whole string together ! not splited !! so ...
