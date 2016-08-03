@@ -18,15 +18,14 @@ public class RequestSender {
          * EOR : stands for "end of request"
          * */
 
-        String command = "$SOR$ TextMessage "+
+        String command = " $SOR$ TextMessage "+
                 message.getReceiver()+" "+
                 message.getSender()+" "+
                 "$COTM$"+" "+
-                message.getContent()+" "+"&EOR&";
+                message.getContent()+" "+"&EOR&  ";
 
         SendString out = new SendString(command);
         out.start();
-        out = new SendString("siamak saljoughi badlou s.shahryar75@gmai.cm instagram.com/pegah_fth facebook.com/pegah.fateh.3");
         try {
             out.join();
         } catch (InterruptedException e) {
@@ -35,6 +34,7 @@ public class RequestSender {
 
     }
     public static void sendText(String text){
+        String formattedText = " $SOR$ "+text+" $EOR$ ";
         SendString out = new SendString(text);
         out.start();
         try {

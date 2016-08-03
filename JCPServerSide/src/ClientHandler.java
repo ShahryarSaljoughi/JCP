@@ -35,29 +35,29 @@ public class ClientHandler extends Thread {
 
 
     @Override
-    public void run() {
-        System.out.println("run method of ClientHandler is running ! "); // todo : delete this !
+    public  void run() {
+
         String receivedString="" ;
         while (true){
-            //System.out.print("ClinetHandler>  run() > ScnrIn.hasNext>  ");
+
             boolean hasnext = ScnrIn.hasNext();
             System.out.println(hasnext);
-            if (hasnext){
+            if (hasnext ){
                 System.out.println("if is running ");//todo : delete
-                //the code below will receiv the entire request!:
-                assert (ScnrIn.next()=="$SOR$");
-                while (ScnrIn.hasNext()){
-                    System.out.println("inner while is running "); // todo : delete
-                    String nextToken = ScnrIn.next();
+                String nextToken = ScnrIn.next();
+                System.out.println("this is the first received token : "+nextToken);
+
+                while (!nextToken.contains("&EOR&")){
+
                     receivedString = receivedString.concat(nextToken);
-                    receivedString =receivedString.concat(" ");
-                    System.out.println(receivedString);//todo : delete
-                    if (nextToken == "$EOR$"){
-                        System.out.println("reached end of request! ");
-                        break;
-                    }
+                    receivedString = receivedString.concat(" ");
+                    System.out.println(nextToken);  //todo : delete
+                    nextToken = ScnrIn.next();
                 }
+                receivedString=receivedString.concat(nextToken);
+                System.out.println("exited the loop of reading !");
                 respond(receivedString);  // TODO: 02/08/2016  : implenet method respond !
+                receivedString="";
             }
         }
     }
@@ -70,7 +70,8 @@ public class ClientHandler extends Thread {
     }
 
     private void respond(String request){
-        System.out.println("responding to request ");
+
+        System.out.println("responding to request : ");
         System.out.println(request);
     }
 }

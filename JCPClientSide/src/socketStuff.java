@@ -41,11 +41,20 @@ public class socketStuff {
         ssOut.start();
 
 
-        /*
+
         Message message = new Message("09127401672","09142850025","salam . merC babate lotfi ke kardi :) ");
         RequestSender.sendTextMessage(message);
-        */
-        RequestSender.sendText("sigar , gahve , hooman , darya!!");
+
+        Message message4 = new Message("09127401672","09142850025","salam . merC babate lotfi ke kardi :) ");
+        RequestSender.sendTextMessage(message4);
+
+        Message message2 = new Message("09127401672","09142850025","vaghean halam bad bood oon moghe ");
+        RequestSender.sendTextMessage(message2);
+
+        Message message3 = new Message("09127401672","09142850025","salam . merC babate lotfi ke kardi :) ");
+        RequestSender.sendTextMessage(message3);
+
+
 
        while(true){
 
