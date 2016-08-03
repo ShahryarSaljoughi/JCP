@@ -83,7 +83,7 @@ public class JCPServer {
         LocalPort_SendSocket = ServerSendSocket.getLocalPort();
         System.out.println("the server's send socket is waiting on port "+
                                                 LocalPort_SendSocket);
-        System.out.println("the server's send socket is waiting on port "+
+        System.out.println("the server's receive socket is waiting on port "+
                 LocalPort_RecvSocket);
 
         while (true){

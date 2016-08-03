@@ -25,8 +25,8 @@ public class socketStuff {
 
     public static void main(String args[]) throws IOException {
 
-        Socket clientSendSocket = new Socket("localhost",5001);
-        Socket clientRecvSocket = new Socket ("localhost",5000);
+        Socket clientSendSocket = new Socket("localhost",59791);
+        Socket clientRecvSocket = new Socket ("localhost",59790);
         InputStream inStrm = clientRecvSocket.getInputStream();
         OutputStream outStrm = clientSendSocket.getOutputStream();
         printWriterStrm = new PrintWriter(outStrm);
