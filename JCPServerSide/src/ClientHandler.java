@@ -24,12 +24,12 @@ public class ClientHandler extends Thread {
     private java.util.Scanner ScnrIn = null;
 
     public ClientHandler(ClientAccessor client) throws IOException {
-        clientSendSocket = client.getClientSendSocket();
-        clientRecvSocket = client.getClientRecvSocket();
-        InStrm = clientRecvSocket.getInputStream();
-        OutStrm = clientSendSocket.getOutputStream();
-        PWOut = new PrintWriter(OutStrm);
-        ScnrIn = new Scanner(InStrm);
+        //clientSendSocket = client.getClientSendSocket();
+        //clientRecvSocket = client.getClientRecvSocket();
+        //InStrm = clientRecvSocket.getInputStream();
+        //OutStrm = clientSendSocket.getOutputStream();
+        PWOut = client.getOut();
+        ScnrIn = client.getIn();
     }
 
     @Override

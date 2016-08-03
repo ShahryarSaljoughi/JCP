@@ -11,30 +11,24 @@ import java.util.Scanner;
 
 
 class ClientAccessor{
-    private Socket ClientSendSocket;
-    private Socket ClientRecvSocket;
+    /*private Socket ClientSendSocket;
+    private Socket ClientRecvSocket;*/
+    private Scanner in ;
+    private PrintWriter out ;
     private String phonenumber;
 
-    public ClientAccessor(Socket clientSendSocket,Socket clientRecvSocket, String phonenumber) {
-        this.ClientRecvSocket = clientRecvSocket;
-        this.ClientSendSocket = clientSendSocket;
+    public Scanner getIn() {
+        return in;
+    }
+
+    public PrintWriter getOut() {
+        return out;
+    }
+
+    public ClientAccessor(Scanner in, PrintWriter out, String phonenumber) {
+        this.in = in;
+        this.out = out;
         this.phonenumber = phonenumber;
-    }
-
-    public Socket getClientSendSocket() {
-        return ClientSendSocket;
-    }
-
-    public void setClientSendSocket(Socket clientSendSocket) {
-        ClientSendSocket = clientSendSocket;
-    }
-
-    public Socket getClientRecvSocket() {
-        return ClientRecvSocket;
-    }
-
-    public void setClientRecvSocket(Socket clientRecvSocket) {
-        ClientRecvSocket = clientRecvSocket;
     }
 
     public String getPhonenumber() {
@@ -109,11 +103,11 @@ public class JCPServer {
             }
 
             Scanner in = new Scanner(acceptRecvSocket.getInputStream());
+            PrintWriter outPW = new PrintWriter(acceptSendSocket.getOutputStream());
 
             ClientAccessor clientAccessor = null;
             if (in.hasNext()){
-                 clientAccessor = new ClientAccessor(
-                        acceptSendSocket,acceptRecvSocket,in.next());
+                 clientAccessor = new ClientAccessor(in,outPW,in.next());
                 onlineClients.add(clientAccessor);
 
             } else{
@@ -132,7 +126,5 @@ public class JCPServer {
             Thread t = new Thread(CH);
             t.start();
         }
-
-
     }
 }
