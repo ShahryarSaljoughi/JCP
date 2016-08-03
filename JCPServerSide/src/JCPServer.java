@@ -11,30 +11,22 @@ import java.util.Scanner;
 
 
 class ClientAccessor{
-    private Socket ClientSendSocket;
-    private Socket ClientRecvSocket;
+    private Scanner in;
+    private PrintWriter out;
     private String phonenumber;
 
-    public ClientAccessor(Socket clientSendSocket,Socket clientRecvSocket, String phonenumber) {
-        this.ClientRecvSocket = clientRecvSocket;
-        this.ClientSendSocket = clientSendSocket;
+    public ClientAccessor(Scanner in,PrintWriter out, String phonenumber) {
+        this.in = in;
+        this.out = out;
         this.phonenumber = phonenumber;
     }
 
-    public Socket getClientSendSocket() {
-        return ClientSendSocket;
+    public Scanner getIn() {
+        return in;
     }
 
-    public void setClientSendSocket(Socket clientSendSocket) {
-        ClientSendSocket = clientSendSocket;
-    }
-
-    public Socket getClientRecvSocket() {
-        return ClientRecvSocket;
-    }
-
-    public void setClientRecvSocket(Socket clientRecvSocket) {
-        ClientRecvSocket = clientRecvSocket;
+    public PrintWriter getOut() {
+        return out;
     }
 
     public String getPhonenumber() {
@@ -109,13 +101,13 @@ public class JCPServer {
             }
 
             Scanner in = new Scanner(acceptRecvSocket.getInputStream());
-
+            PrintWriter out = new PrintWriter(acceptSendSocket.getOutputStream());
             ClientAccessor clientAccessor = null;
             if (in.hasNext()){
-                 clientAccessor = new ClientAccessor(
-                        acceptSendSocket,acceptRecvSocket,in.next());
+                String phonenumber = in.next();
+                clientAccessor = new ClientAccessor(in,out,phonenumber);
+                System.out.println("the phone number added to list is : "+phonenumber);
                 onlineClients.add(clientAccessor);
-
             } else{
                 System.out.println("client has not send any phonenumber!");
                 System.exit(1);

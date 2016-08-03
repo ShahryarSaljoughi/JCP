@@ -17,14 +17,6 @@ import java.util.Scanner;
 
 public class ClientHandler extends Thread {
 
-    private Socket clientSendSocket = null ;
-
-    private Socket clientRecvSocket = null ;
-
-    private InputStream InStrm = null;
-
-    private OutputStream OutStrm = null;
-
     private PrintWriter PWOut = null;
 
     private java.util.Scanner ScnrIn = null;
@@ -35,17 +27,9 @@ public class ClientHandler extends Thread {
 
         System.out.println("client handler's constructor is running . "); // todo : delete this !
 
-        clientSendSocket = client.getClientSendSocket();
+        PWOut = client.getOut();
 
-        clientRecvSocket = client.getClientRecvSocket();
-
-        InStrm = clientRecvSocket.getInputStream();
-
-        OutStrm = clientSendSocket.getOutputStream();
-
-        PWOut = new PrintWriter(OutStrm);
-
-        ScnrIn = new Scanner(InStrm);
+        ScnrIn = client.getIn();
 
     }
 
