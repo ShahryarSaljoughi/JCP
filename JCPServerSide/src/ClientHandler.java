@@ -1,9 +1,11 @@
 /**
- * Created by panizava on 30/07/2016.
+ * Created by shahryar_slg on 30/07/2016.
  */
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -43,7 +45,7 @@ public class ClientHandler extends Thread {
             if (hasnext ){
 
                 String nextToken = ScnrIn.next();
-                while (!nextToken.contains("&EOR&")){
+                while (!nextToken.contains("$EOR$")){
 
                     receivedString = receivedString.concat(nextToken);
                     receivedString = receivedString.concat(" ");
@@ -69,7 +71,11 @@ public class ClientHandler extends Thread {
 
         System.out.println("responding to request : ");
         System.out.println(request);
-        boolean congruentWithProtocol = request.matches("^ *\\$SOR\\$.*\\$EOR\\$ *");
+
+        Pattern textMessagePattern = Pattern.compile("\\$SOR\\$ TextMessage (\\d{11}) (\\d{11}) \\$COTM\\$(.*?)\\$EOR\\$");
+        Matcher m = textMessagePattern.matcher(request);
+        System.out.println(m.matches());
+        boolean congruentWithProtocol = m.matches(); //request.matches("\\$SOR\\$ TextMessage \\d{11} \\d{11} \\$COTM\\$.*?\\$EOR\\$");
         if (!congruentWithProtocol){
             System.out.println("the received request violates our protocol"); //todo : an exception should be thrown later
         }
@@ -81,7 +87,24 @@ public class ClientHandler extends Thread {
 
     }
     public void sendMessage(String request){
-        Pattern pattern = Pattern.compile("^ *\\$SOR\\$ TextMessage *(\\d*) (\\d*)\\$COTM\\$(.*?) \\$EOR\\$ *$");
+        System.out.println("send message is running");
+        Pattern pattern = Pattern.compile("\\$SOR\\$ TextMessage (\\d{11}) (\\d{11}) \\$COTM\\$(.*?)\\$EOR\\$");
+        Matcher phoneNumbers = pattern.matcher(request);
 
+        String sender = null;
+        String receiver = null;
+        String data = null ;
+        boolean phoneNumbersFound = phoneNumbers.matches();
+        if (phoneNumbersFound){
+            receiver = phoneNumbers.group(1);
+            sender = phoneNumbers.group(2);
+            data = phoneNumbers.group(3);
+        }
+        Message message = new Message(sender,receiver,data);
+        try {
+            DatabaseDriver.addMessage(message);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

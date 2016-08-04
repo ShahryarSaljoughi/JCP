@@ -22,7 +22,7 @@ public class RequestSender {
                 message.getReceiver()+" "+
                 message.getSender()+" "+
                 "$COTM$"+" "+
-                message.getContent()+" "+"&EOR&  ";
+                message.getContent()+" "+"$EOR$  ";
 
         SendString out = new SendString(command);
         out.start();

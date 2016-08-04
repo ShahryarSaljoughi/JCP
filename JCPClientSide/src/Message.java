@@ -57,4 +57,14 @@ public class Message {
         this.sent = sent;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", content='" + content + '\'' +
+                ", seen=" + seen +
+                ", sent=" + sent +
+                '}';
+    }
 }
