@@ -46,16 +46,6 @@ public class DatabaseDriver {
         result.close();
         return a;
 
-        /*if (hasResult){
-            result = stat.getResultSet();
-            boolean a = result.next();
-            result.close();
-            System.out.println(a);
-            return a;
-        }
-        else{
-            System.out.println("there is no result - text just for test");
-        }*/
     }
 
     public static void addUser(USER user) throws SQLException{

@@ -3,17 +3,14 @@
  */
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.io.PrintWriter;
-import java.util.Scanner;
-
+import java.util.regex.Pattern;
 
 
 /**
  * har lahze momkene behesh ettela'at biad !
- * vali dar mavaghe moshakhas ettela'at mifreste ! */
+ * vali dar mavaghe moshakhas ettela'at mifreste !
+ * */
 
 public class ClientHandler extends Thread {
 
@@ -29,6 +26,7 @@ public class ClientHandler extends Thread {
 
         PWOut = client.getOut();
 
+
         ScnrIn = client.getIn();
 
     }
@@ -43,10 +41,8 @@ public class ClientHandler extends Thread {
             boolean hasnext = ScnrIn.hasNext();
             System.out.println(hasnext);
             if (hasnext ){
-                System.out.println("if is running ");//todo : delete
-                String nextToken = ScnrIn.next();
-                System.out.println("this is the first received token : "+nextToken);
 
+                String nextToken = ScnrIn.next();
                 while (!nextToken.contains("&EOR&")){
 
                     receivedString = receivedString.concat(nextToken);
@@ -73,5 +69,19 @@ public class ClientHandler extends Thread {
 
         System.out.println("responding to request : ");
         System.out.println(request);
+        boolean congruentWithProtocol = request.matches("^ *\\$SOR\\$.*\\$EOR\\$ *");
+        if (!congruentWithProtocol){
+            System.out.println("the received request violates our protocol"); //todo : an exception should be thrown later
+        }
+
+        //recognize text message :
+        if (request.matches("^ *\\$SOR\\$ TextMessage.*\\$COTM\\$.*\\$EOR\\$ *")){
+            sendMessage(request);
+        }
+
+    }
+    public void sendMessage(String request){
+        Pattern pattern = Pattern.compile("^ *\\$SOR\\$ TextMessage *(\\d*) (\\d*)\\$COTM\\$(.*?) \\$EOR\\$ *$");
+
     }
 }
