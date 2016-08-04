@@ -1,6 +1,7 @@
 /**
  * Created by panizava on 23/07/2016.
  */
+
 import java.sql.*;
 
 public class DatabaseDriver {
@@ -15,6 +16,21 @@ public class DatabaseDriver {
         }
     }
     public DatabaseDriver(){}
+
+    public static void addMessage(Message message) throws SQLException {
+        String sqlCommand;
+        sqlCommand="insert into TextMessages VALUES (?,?,?,?,?)";
+        PreparedStatement pstat ;
+        pstat = conn.prepareStatement(sqlCommand);
+        pstat.setString(1,message.getSender());
+        pstat.setString(2,message.getReceiver());
+        pstat.setString(3,message.getContent());
+        if (message.isSeen()){pstat.setInt(4,1);}else{pstat.setInt(4,0);}
+        if (message.isSent()){pstat.setInt(5,1);}else{pstat.setInt(5,0);}
+        pstat.execute();
+        pstat.close();
+    }
+
 
     public static boolean userExists(USER user) throws SQLException {
         System.out.println("userExists is running");
@@ -31,16 +47,6 @@ public class DatabaseDriver {
         result.close();
         return a;
 
-        /*if (hasResult){
-            result = stat.getResultSet();
-            boolean a = result.next();
-            result.close();
-            System.out.println(a);
-            return a;
-        }
-        else{
-            System.out.println("there is no result - text just for test");
-        }*/
     }
 
     public static void addUser(USER user) throws SQLException{

@@ -5,12 +5,11 @@ import java.sql.SQLException;
  */
 public class databaseDriverTester {
     public static void main(String args[]){
-        USER user = new USER("hassan","mortazavi","rt86","6446541657");
+        Message m = new Message("pegah","shahryar","pish miad !! bara man pish miad javab nadam!");
         try {
-            DatabaseDriver.addUser(user);
+            DatabaseDriver.addMessage(m);
         } catch (SQLException e) {
-            System.out.println( e.getMessage());
+            System.out.println(e.getMessage());
         }
-
     }
 }
