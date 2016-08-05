@@ -62,7 +62,7 @@ public class JCPServer {
             try {
                 ServerSendSocket = new ServerSocket(0);
             } catch (IOException e1) {
-                System.out.println("sorry i can't set up the network");
+                System.out.println("we got a problem !");
                 System.exit(0);
             }
         }
