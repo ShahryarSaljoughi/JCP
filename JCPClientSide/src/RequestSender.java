@@ -10,6 +10,25 @@ public class RequestSender {
 
     /*public static List<USER> getFriends(){}
     public static List<USER> getOnlineFriends(){}*/
+
+    public static void loginValidator(String phonenumber , String password){
+        String command;
+        /**
+         * IUVTLI : STANDS FOR -> is user valid to be logged in
+         */
+        command = " $SOR$ IUVTLI " +
+                phonenumber+" " +
+                password+" "+
+                "$EOR$ ";
+        SendString out = new SendString(command);
+        out.start();
+        try {
+            out.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void sendTextMessage(Message message){
         /**
          * SOR  : stands for "start of request"
@@ -31,7 +50,9 @@ public class RequestSender {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
+
     public static void sendText(String text){
         String formattedText = " $SOR$ "+text+" $EOR$ ";
         SendString out = new SendString(text);

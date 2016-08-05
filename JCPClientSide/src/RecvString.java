@@ -3,6 +3,7 @@ import java.util.Scanner;
 /**
  * Created by shahryar_slg on 01/08/2016.
  */
+
 public class RecvString extends Thread {
     private Scanner input;
     private String data = "" ;
@@ -41,28 +42,6 @@ public class RecvString extends Thread {
 
         System.out.println("received : " + data);
         isDataReceived = true;
-
-        /*
-
-        while (input.hasNext()){
-
-            String nextToken = input.next();
-            if(nextToken.contains("$SOR$")){
-                data = "";
-            }
-            if (!nextToken.contains("$EOR$")) { // i want to hava the whole string together ! not splited !! so ...
-                data =  data.concat(nextToken);
-                data = data.concat(" ");
-            }
-
-            else{
-                data.concat(nextToken);
-                System.out.println("reached end of the request!");
-                break;
-            }
-        }
-        */
-
     }
 
     @Override

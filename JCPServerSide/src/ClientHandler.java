@@ -55,7 +55,7 @@ public class ClientHandler extends Thread {
                 }
                 receivedString=receivedString.concat(nextToken);
                 System.out.println("exited the loop of reading !");
-                respond(receivedString);  // TODO: 02/08/2016  : implenet method respond !
+                respond(receivedString);
                 receivedString="";
             }
         }

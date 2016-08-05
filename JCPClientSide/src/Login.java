@@ -10,12 +10,8 @@ public class Login {
 
     // this function checks if the password and phoneNumeber are matched .
     // runs signUp if there is no such user in the database.
-    public static boolean validate(){
-
-        boolean isValid=false;
-        //todo : a request to server should be sent :
-
-        return isValid;
+    public static void validate(){
+        RequestSender.loginValidator(Login.phoneNumber,Login.password);
     }
 
 
