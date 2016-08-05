@@ -22,9 +22,6 @@ public class Sender {
                 +" $COTM$ "
                 +message.getContent()
                 +" $EOR$ ";
-
-
-
         SendString ss = new SendString(command,out);
         ss.start();
         try {
