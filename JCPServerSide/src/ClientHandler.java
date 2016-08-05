@@ -5,6 +5,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,5 +107,21 @@ public class ClientHandler extends Thread {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+
+        //now let's check if the receiver is online . if this is the case , i will forward the message to him;:
+        List<ClientAccessor> onlineClients = JCPServer.getOnlineClients();
+        ClientAccessor receiverCA = null;
+        for (ClientAccessor ca : onlineClients){
+            if(ca.getPhonenumber().trim().equals(receiver.trim())){
+                receiverCA = ca;
+                break;
+            }
+        }
+        if(receiverCA!=null){
+            Sender.sendMessage(message,receiverCA.getOut());
+        }
+
     }
 }

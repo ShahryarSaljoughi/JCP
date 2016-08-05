@@ -10,7 +10,7 @@ public class RecvString extends Thread {
     private boolean isDataReceived = false;
 
     //constructor :
-    public RecvString(Scanner input) {
+    public RecvString() {  //parameter : Scanner input
 
         this.input = socketStuff.inScanner;
     }
@@ -28,17 +28,41 @@ public class RecvString extends Thread {
     @Override
     public synchronized void run() {
 
+        boolean hasnext = input.hasNext();
+        if(hasnext){
+            String nextToken = input.next();
+            while(!nextToken.contains("$EOR$")){
+                data = data.concat(nextToken);
+                data = data.concat(" ");
+                nextToken=input.next();
+            }
+            data = data.concat(nextToken);
+        }
+
+        System.out.println("received : " + data);
+        isDataReceived = true;
+
+        /*
+
         while (input.hasNext()){
-            String nextToken = input.next().toLowerCase();
-            if (nextToken!= "endofdata") { // i want to hava the whole string together ! not splited !! so ...
+
+            String nextToken = input.next();
+            if(nextToken.contains("$SOR$")){
+                data = "";
+            }
+            if (!nextToken.contains("$EOR$")) { // i want to hava the whole string together ! not splited !! so ...
                 data =  data.concat(nextToken);
                 data = data.concat(" ");
             }
+
             else{
+                data.concat(nextToken);
+                System.out.println("reached end of the request!");
                 break;
             }
         }
-        isDataReceived = true;
+        */
+
     }
 
     @Override

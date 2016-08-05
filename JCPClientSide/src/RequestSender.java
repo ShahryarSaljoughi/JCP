@@ -31,7 +31,6 @@ public class RequestSender {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
     public static void sendText(String text){
         String formattedText = " $SOR$ "+text+" $EOR$ ";

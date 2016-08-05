@@ -3,6 +3,7 @@
  */
 
 public class Message {
+    public static String regex ="*\\$SOR\\$ TextMessage.*\\$COTM\\$.*\\$EOR\\$ *";
     private String sender;
     private String receiver ; // phonenumber will be saved in these two variables
     private String content ;
