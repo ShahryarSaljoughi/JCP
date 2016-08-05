@@ -42,6 +42,11 @@ public class JCPServer {
 
     private static ArrayList<ClientAccessor> onlineClients = new ArrayList<>();
 
+    public static ArrayList<ClientAccessor> getOnlineClients() {
+        return onlineClients;
+    }
+
+
     public static void main (String args[]) throws IOException {
         System.out.println(onlineClients.size());
         int LocalPort_SendSocket;
