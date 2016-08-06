@@ -2,8 +2,10 @@
  * Created by shahryar_slg on 30/07/2016.
  */
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.MemoryType;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -28,7 +30,6 @@ public class ClientHandler extends Thread {
         System.out.println("client handler's constructor is running . "); // todo : delete this !
 
         PWOut = client.getOut();
-
 
         ScnrIn = client.getIn();
 
@@ -73,7 +74,7 @@ public class ClientHandler extends Thread {
         System.out.println("responding to request : ");
         System.out.println(request);
 
-        Pattern textMessagePattern = Pattern.compile("\\$SOR\\$ TextMessage (\\d{11}) (\\d{11}) \\$COTM\\$(.*?)\\$EOR\\$");
+        Pattern textMessagePattern = Pattern.compile("\\$SOR\\$(.*?)\\$EOR\\$");
         Matcher m = textMessagePattern.matcher(request);
         System.out.println(m.matches());
         boolean congruentWithProtocol = m.matches(); //request.matches("\\$SOR\\$ TextMessage \\d{11} \\d{11} \\$COTM\\$.*?\\$EOR\\$");
@@ -86,7 +87,43 @@ public class ClientHandler extends Thread {
             sendMessage(request);
         }
 
+        //recognize if the received command is asking for login validation:
+        if (request.matches(" *\\$SOR\\$ IUVTLI \\d{11} .*? *\\$EOR\\$")){
+            loginValidation(request);
+        }
+
     }
+
+    private void loginValidation(String request) {
+        Pattern pattern = Pattern.compile(" *\\$SOR\\$ IUVTLI \\d{11} (.*?)\\$EOR\\$");
+        Matcher matcher = pattern.matcher(request);
+        String phonenumber = null;
+        String password = null;
+
+        if(matcher.matches()){
+            phonenumber = matcher.group(1);
+            password = matcher.group(2);
+        }
+        boolean userexists = true;
+        try {
+            userexists = DatabaseDriver.userExists(phonenumber);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        if(userexists){
+
+
+
+        }
+        else{
+            Sender.RespondIUVTLI(0,PWOut);
+        }
+
+
+    }
+
     public void sendMessage(String request){
         System.out.println("send message is running");
         Pattern pattern = Pattern.compile("\\$SOR\\$ TextMessage (\\d{11}) (\\d{11}) \\$COTM\\$(.*?)\\$EOR\\$");
@@ -107,8 +144,6 @@ public class ClientHandler extends Thread {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
 
         //now let's check if the receiver is online . if this is the case , i will forward the message to him;:
         List<ClientAccessor> onlineClients = JCPServer.getOnlineClients();
