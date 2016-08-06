@@ -30,4 +30,25 @@ public class Sender {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @param n n can have three values : 0,1 and 2 . 0 means there is no user with that phone number . if 1 is passed to the method , it is understood that the password doesnot match phone numver . 2 : indicates that every thing for loging in is OK.
+     */
+    public static void RespondIUVTLI(int n,PrintWriter out){
+        String command = "";
+        switch (n){
+            case 0 :
+                command = "$SOR$ IUVTLIResponse notSignedUpYet $EOR$";
+                break;
+            case 1 :
+                command = "$SOR$ IUVTLIResponse IncorrectPassword $EOR$";
+                break;
+            case 2 :
+                command = "$SOR$ IUVTLIResponse OK $EOR$";
+                break;
+        }
+        SendString ss = new SendString(command,out);
+        ss.start();
+
+    }
 }
