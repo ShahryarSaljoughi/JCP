@@ -49,6 +49,10 @@ public class Sender {
         }
         SendString ss = new SendString(command,out);
         ss.start();
-
+        try {
+            ss.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

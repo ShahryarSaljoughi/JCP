@@ -7,6 +7,15 @@ public class Login {
     private static String lastname;
     private static String password;
     private static String phoneNumber;
+    private static boolean loggedIn = false;
+
+    public static boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public static void setLoggedIn(boolean loggedIn) {
+        Login.loggedIn = loggedIn;
+    }
 
     // this function checks if the password and phoneNumeber are matched .
     // runs signUp if there is no such user in the database.

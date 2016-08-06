@@ -17,6 +17,19 @@ public class DatabaseDriver {
     }
     public DatabaseDriver(){}
 
+    public static boolean doPhonenumberMatchPassword(String phonenumber,String password) throws SQLException {
+        String SqlCommand;
+        SqlCommand = "SELECT phonenumber FROM users WHERE phonenumber = ? and password = ?";
+        PreparedStatement stat;
+        stat = conn.prepareStatement(SqlCommand);
+        stat.setString(1, phonenumber);
+        stat.setString(2,password);
+        ResultSet result;
+        result = stat.getResultSet();
+        boolean a = result.next();
+        result.close();
+        return a;
+    }
 
 
     public static void addMessage(Message message) throws SQLException {

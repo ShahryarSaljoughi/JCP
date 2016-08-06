@@ -40,26 +40,25 @@ public class socketStuff {
         SendString ssOut = new SendString(profile.me.getPhoneNumber());
         ssOut.start();
 
-
         RecvString inputFromServer = new RecvString();
         inputFromServer.start();
+
 
 
         Message message = new Message("09127401672","09127401672","salam . merC babate lotfi ke kardi :) ");
         RequestSender.sendTextMessage(message);
 
-        Login.init("shahryar","saljoughi","75896","09211183140");
-        Login.validate();
-        /*
-        Message message4 = new Message("09127401672","09142850025","salam . merC babate lotfi ke kardi :) ");
+        Message message4 = new Message("09127401672","09127401672","payame shomore 2 ");
         RequestSender.sendTextMessage(message4);
 
         Message message2 = new Message("09127401672","09142850025","vaghean halam bad bood oon moghe ");
         RequestSender.sendTextMessage(message2);
 
-        Message message3 = new Message("09127401672","09142850025","salam . merC babate lotfi ke kardi :) ");
+        Message message3 = new Message("09127401672","09127401672","shomere ye 3 ");
         RequestSender.sendTextMessage(message3);
-        */
+
+        Login.init("shahryar","saljoughi","75896","09211183140");
+        Login.validate();
 
 
        while(true){

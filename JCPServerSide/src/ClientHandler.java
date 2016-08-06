@@ -33,6 +33,7 @@ public class ClientHandler extends Thread {
 
         ScnrIn = client.getIn();
 
+
     }
 
 
@@ -56,7 +57,11 @@ public class ClientHandler extends Thread {
                 }
                 receivedString=receivedString.concat(nextToken);
                 System.out.println("exited the loop of reading !");
-                respond(receivedString);
+                try {
+                    respond(receivedString);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 receivedString="";
             }
         }
@@ -69,7 +74,7 @@ public class ClientHandler extends Thread {
 
     }
 
-    private void respond(String request){
+    private void respond(String request) throws SQLException {
 
         System.out.println("responding to request : ");
         System.out.println(request);
@@ -94,34 +99,36 @@ public class ClientHandler extends Thread {
 
     }
 
-    private void loginValidation(String request) {
-        Pattern pattern = Pattern.compile(" *\\$SOR\\$ IUVTLI \\d{11} (.*?)\\$EOR\\$");
+    private void loginValidation(String request) throws SQLException {
+        Pattern pattern = Pattern.compile(" *\\$SOR\\$ IUVTLI (\\d{11}) (.*?)\\$EOR\\$");
         Matcher matcher = pattern.matcher(request);
-        String phonenumber = null;
+        String phoneNumber = null;
         String password = null;
 
         if(matcher.matches()){
-            phonenumber = matcher.group(1);
+            phoneNumber = matcher.group(1);
             password = matcher.group(2);
         }
+        System.out.println("data for loginValidation are : " +phoneNumber+" "+password);
         boolean userexists = true;
         try {
-            userexists = DatabaseDriver.userExists(phonenumber);
+            userexists = DatabaseDriver.userExists(phoneNumber);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-
+        int result;
         if(userexists){
-
-
-
+            if(DatabaseDriver.doPhonenumberMatchPassword(phoneNumber,password)){
+                result = 2;
+            }else{
+                result=1;
+            }
         }
         else{
-            Sender.RespondIUVTLI(0,PWOut);
+            result = 0;
         }
-
-
+        Sender.RespondIUVTLI(result,PWOut);
     }
 
     public void sendMessage(String request){

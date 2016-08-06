@@ -28,20 +28,22 @@ public class RecvString extends Thread {
 
     @Override
     public synchronized void run() {
-
-        boolean hasnext = input.hasNext();
-        if(hasnext){
-            String nextToken = input.next();
-            while(!nextToken.contains("$EOR$")){
+        while(true) {
+            boolean hasnext = input.hasNext();
+            if (hasnext) {
+                String nextToken = input.next();
+                while (!nextToken.contains("$EOR$")) {
+                    data = data.concat(nextToken);
+                    data = data.concat(" ");
+                    nextToken = input.next();
+                }
                 data = data.concat(nextToken);
-                data = data.concat(" ");
-                nextToken=input.next();
             }
-            data = data.concat(nextToken);
-        }
+            System.out.println("received : " + data);
 
-        System.out.println("received : " + data);
-        isDataReceived = true;
+            isDataReceived = true;
+            data = "";
+        }
     }
 
     @Override
