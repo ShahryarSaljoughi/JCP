@@ -17,6 +17,8 @@ public class DatabaseDriver {
     }
     public DatabaseDriver(){}
 
+
+
     public static void addMessage(Message message) throws SQLException {
         String sqlCommand;
         sqlCommand="insert into TextMessages VALUES (?,?,?,?,?)";
@@ -47,6 +49,22 @@ public class DatabaseDriver {
         result.close();
         return a;
 
+    }
+
+    public static boolean userExists(String phoneNumber) throws SQLException {
+        System.out.println("userExists is running");
+
+        String SqlCommand;
+        SqlCommand = "SELECT phonenumber FROM users WHERE phonenumber = ?";
+        PreparedStatement stat;
+        stat = conn.prepareStatement(SqlCommand);
+        stat.setString(1, phoneNumber);
+        boolean hasResult =stat.execute();
+        ResultSet result;
+        result = stat.getResultSet();
+        boolean a = result.next();
+        result.close();
+        return a;
     }
 
     public static void addUser(USER user) throws SQLException{
