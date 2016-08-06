@@ -38,13 +38,13 @@ public class Sender {
         String command = "";
         switch (n){
             case 0 :
-                command = "$SOR$ IUVTLIResponse notSignedUpYet $EOR$";
+                command = " $SOR$ IUVTLIResponse notSignedUpYet $EOR$ ";
                 break;
             case 1 :
-                command = "$SOR$ IUVTLIResponse IncorrectPassword $EOR$";
+                command = " $SOR$ IUVTLIResponse IncorrectPassword $EOR$ ";
                 break;
             case 2 :
-                command = "$SOR$ IUVTLIResponse OK $EOR$";
+                command = " $SOR$ IUVTLIResponse OK $EOR$ ";
                 break;
         }
         SendString ss = new SendString(command,out);
